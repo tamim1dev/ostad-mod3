@@ -57,5 +57,14 @@ jobs:
       - name: Show test result
         run: cat ./downloaded-test-results/output.txt
 
-      - name: Deploy (dummy step)
-        run: npm run start
+      - name: install pm2
+        run: npm i -g pm2
+
+      - name: remove existing pm2 instance
+        run: pm2 delete node-app || true
+
+      - name: Deploy
+        run: pm2 start "./src/server.js" --name node-app
+
+      - name: Success message
+        run: echo deployed
